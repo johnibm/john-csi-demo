@@ -1,7 +1,7 @@
 kind: Pod
 apiVersion: v1
 metadata:
-  name: scale-csi-writer-pod
+  name: scale-csi-writer-pod-1
 spec:
   containers:
   - resources: {}
