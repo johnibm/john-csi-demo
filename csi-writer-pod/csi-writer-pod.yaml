@@ -1,20 +1,20 @@
 kind: Pod
 apiVersion: v1
 metadata:
-name: scale-csi-writer-pod
+  name: scale-csi-writer-pod
 spec:
-containers:
-- name: maincontainer
-image: alpine:latest
-command: [ "/bin/sh", "-c", "--" ]
-args: [ "while true; do date >> /data/date_file;sleep 5; done;" ]
-volumeMounts:
-- name: vol1
-mountPath: "/data"
+  containers:
+  - name: maincontainer
+  image: alpine:latest
+  command: [ "/bin/sh", "-c", "--" ]
+  args: [ "while true; do date >> /data/date_file;sleep 5; done;" ]
+  volumeMounts:
+    - name: vol1
+    mountPath: "/data"
 restartPolicy: "Never"
 volumes:
-- name: vol1
-persistentVolumeClaim:
-claimName: scale-csi-writer-pvc
+  - name: vol1
+    persistentVolumeClaim:
+      claimName: scale-csi-writer-pvc
 nodeSelector:
-scale: 'true'
+    scale: 'true'

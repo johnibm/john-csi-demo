@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-name: scale-csi-writer-pvc
+  name: scale-csi-writer-pvc
 spec:
-accessModes:
-- ReadWriteMany
-resources:
-requests:
-storage: 1Gi
-storageClassName: ibm-spectrum-scale-csi-remote-fileset
+  accessModes:
+  - ReadWriteMany
+  resources:
+  requests:
+  storage: 1Gi
+  storageClassName: ibm-spectrum-scale-csi-remote-fileset
