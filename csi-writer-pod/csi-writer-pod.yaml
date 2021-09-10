@@ -17,7 +17,7 @@ spec:
     name: maincontainer
     image: alpine:latest
     command: [ "/bin/sh", "-c", "--" ]
-    args: [ "while true; do echo $MY_POD_NAME >> /data/datafile; date >> /data/datafile;sleep 5; done;" ]
+    args: [ "while true; do echo $MY_POD_NAME `date` >> /data/datafile; sleep 5; done;" ]
     volumeMounts:
       - name: vol1
         mountPath: "/data"
