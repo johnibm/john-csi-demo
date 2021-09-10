@@ -6,6 +6,6 @@ spec:
   accessModes:
   - ReadWriteMany
   resources:
-  requests:
-  storage: 1Gi
+    requests:
+      storage: 1Gi
   storageClassName: ibm-spectrum-scale-csi-remote-fileset

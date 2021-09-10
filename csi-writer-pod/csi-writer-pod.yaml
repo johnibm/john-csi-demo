@@ -10,11 +10,8 @@ spec:
   args: [ "while true; do date >> /data/date_file;sleep 5; done;" ]
   volumeMounts:
     - name: vol1
-    mountPath: "/data"
-restartPolicy: "Never"
-volumes:
-  - name: vol1
     persistentVolumeClaim:
-      claimName: scale-csi-writer-pvc
-nodeSelector:
-    scale: 'true'
+      persistentVolumeClaim:
+        claimName: scale-csi-writer-pvc
+  nodeSelector:
+         scale: 'true'
