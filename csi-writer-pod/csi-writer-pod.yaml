@@ -5,9 +5,9 @@ metadata:
 spec:
   containers:
   - name: maincontainer
-      image: alpine:latest
-      command: [ "/bin/sh", "-c", "--" ]
-      args: [ "while true; do date >> /data/date_file;sleep 5; done;" ]
+    image: alpine:latest
+    command: [ "/bin/sh", "-c", "--" ]
+    args: [ "while true; do date >> /data/date_file;sleep 5; done;" ]
     volumeMounts:
       - name: vol1
         mountPath: "/data"
