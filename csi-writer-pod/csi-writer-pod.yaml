@@ -5,10 +5,19 @@ metadata:
 spec:
   containers:
   - resources: {}
+    env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
     name: maincontainer
     image: alpine:latest
     command: [ "/bin/sh", "-c", "--" ]
-    args: [ "while true; do date >> /data/date_file;sleep 5; done;" ]
+    args: [ "while true; do echo $MY_POD_NAME >> /data/datafile; date >> /data/datafile;sleep 5; done;" ]
     volumeMounts:
       - name: vol1
         mountPath: "/data"
