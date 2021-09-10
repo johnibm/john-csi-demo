@@ -5,12 +5,15 @@ metadata:
 spec:
   containers:
   - name: maincontainer
-  image: alpine:latest
-  command: [ "/bin/sh", "-c", "--" ]
-  args: [ "while true; do date >> /data/date_file;sleep 5; done;" ]
-  volumeMounts:
+      image: alpine:latest
+      command: [ "/bin/sh", "-c", "--" ]
+      args: [ "while true; do date >> /data/date_file;sleep 5; done;" ]
+    volumeMounts:
+      - name: vol1
+        mountPath: "/data"
+  restartPolicy: "Never"
+  volumes:
     - name: vol1
-    persistentVolumeClaim:
       persistentVolumeClaim:
         claimName: scale-csi-writer-pvc
   nodeSelector:
