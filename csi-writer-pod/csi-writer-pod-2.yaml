@@ -1,0 +1,30 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: scale-csi-writer-pod-2
+spec:
+  containers:
+  - resources: {}
+    env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+    name: maincontainer
+    image: alpine:latest
+    command: [ "/bin/sh", "-c", "--" ]
+    args: [ "while true; do echo $MY_POD_NAME `date` >> /data/datafile; sleep 5; done;" ]
+    volumeMounts:
+      - name: vol1
+        mountPath: "/data"
+  restartPolicy: "Never"
+  volumes:
+    - name: vol1
+      persistentVolumeClaim:
+        claimName: scale-csi-writer-pvc
+  nodeSelector:
+         scale: 'true'
