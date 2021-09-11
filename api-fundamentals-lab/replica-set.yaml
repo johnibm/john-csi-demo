@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myfirstreplicaset
+  namespace: john-csi-demo
+spec:
+  selector:
+    matchLabels:
+     app: myfirstapp
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: myfirstapp
+    spec:
+      containers:
+        - name: nodejs
+          image: openshiftkatacoda/blog-django-py
