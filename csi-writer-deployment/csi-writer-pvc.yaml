@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: scale-csi-writer-deployment-pvc
+  name: csi-writer-deployment-pvc
 spec:
   accessModes:
   - ReadWriteMany
