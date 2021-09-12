@@ -7,6 +7,7 @@ spec:
   selector:
     matchLabels:
       app: hello-openshift
+      release: v1
   template:
     metadata:
       labels:
@@ -16,9 +17,9 @@ spec:
       limits:
         memory: "128Mi"
         cpu: "500m" 
-        
+
       containers:
       - name: hello-openshift
         image: openshift/hello-openshift:latest
         ports:
-        - containerPort: 80
+        - containerPort: "80"
