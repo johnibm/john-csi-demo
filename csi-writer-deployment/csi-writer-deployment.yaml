@@ -6,7 +6,7 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: csi-writer
+      app: scale
   template:
     metadata:
       labels:
@@ -45,5 +45,4 @@ spec:
     - name: vol1
       persistentVolumeClaim:
         claimName: scale-csi-writer-deployment-pvc
-    nodeSelector:
-         scale: 'true'
+    
