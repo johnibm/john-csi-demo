@@ -1,0 +1,45 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: csi-writer-deployment
+spec:
+  replicas: 3
+  template:
+    metadata:
+    labels:
+    app: scale-csi-writer
+    spec:
+    - resources: 
+      limits:
+        memory: "128Mi"
+        cpu: "500m" 
+    env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+      
+    containers:
+        - name: maincontainer
+          image: alpine:latest
+          command: [ "/bin/sh", "-c", "--" ]
+          args: [ "while true; do echo $MY_POD_NAMESPACE $MY_POD_NAME `date` >> /data/datafile; sleep 5; done;" ]
+          volumeMounts:
+            - name: vol1
+              mountPath: "/data"
+
+        - name: sidecar
+          image: alpine:latest
+          command: ["/usr/bin/tail", "-f", "/dev/null"]
+
+    restartPolicy: "Never"
+    volumes:
+    - name: vol1
+      persistentVolumeClaim:
+        claimName: scale-csi-writer-pvc
+    nodeSelector:
+         scale: 'true'
