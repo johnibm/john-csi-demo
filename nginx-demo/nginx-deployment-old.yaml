@@ -1,0 +1,43 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example
+  annotations:
+    image.openshift.io/triggers: |-
+      [
+        {
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "gcr.io/google_containers/nginx-slim:0.8"
+          },
+          "fieldPath": "spec.template.spec.containers[0].image"
+        }
+      ]
+  namespace: john-csi-nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+    - resources: 
+      limits:
+        memory: "128Mi"
+        cpu: "500m" 
+    volumes:
+        - name: nginx-vol1
+          persistentVolumeClaim:
+            claimName: nginx-pod-pvc
+    containers:
+        - name: nginx-app
+          image: gcr.io/google_containers/nginx-slim:0.8
+          ports:
+            - containerPort: 80
+      
+            
+      
+        
