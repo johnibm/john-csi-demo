@@ -1,0 +1,16 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: nginx-deployment-route
+spec:
+  # hostname: foo.apps.CLUSTER.ccs.ornl.gov
+  port:
+    targetPort: nginx
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: nginx-deployment-svc
+    weight: 100
+  wildcardPolicy: None
