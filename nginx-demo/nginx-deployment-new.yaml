@@ -42,6 +42,7 @@ spec:
           volumeMounts:
             - name: nginx-vol1
               mountPath: /usr/share/nginx/html
+              #mountPath: /usr/local
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
