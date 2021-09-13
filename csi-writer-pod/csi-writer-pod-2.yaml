@@ -28,6 +28,6 @@ spec:
   volumes:
     - name: vol1
       persistentVolumeClaim:
-        claimName: scale-csi-writer-pvc
+        claimName: csi-writer-pod-pvc
   nodeSelector:
          scale: 'true'
