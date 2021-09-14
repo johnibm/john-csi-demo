@@ -27,29 +27,33 @@ spec:
         app: csi-writer-deployment
         
     spec:
-    nodeSelector:
+      nodeSelector:
         scale: "true"
-    containers:
-      - name: maincontainer
-        image: alpine:latest
-        command: [ "/bin/sh", "-c", "--" ]
-        args: [ "while true; do echo $MY_POD_NAMESPACE $MY_POD_NAME `date` >> /data/datafile; sleep 5; done;" ]
-        volumeMounts:
-          - name: vol1
-            mountPath: "/data"
-
-      - name: sidecar
-        image: alpine:latest
-        command: ["/usr/bin/tail", "-f", "/dev/null"]
+      volumes:
+        - name: vol1
+          persistentVolumeClaim:
+            claimName: csi-writer-deployment-pvc
+      containers:
+        - name: maincontainer
+          image: alpine:latest
+          command: [ "/bin/sh", "-c", "--" ]
+          args: [ "while true; do echo $MY_POD_NAMESPACE $MY_POD_NAME `date` >> /data/datafile; sleep 5; done;" ]
+          volumeMounts:
+            - name: vol1
+              mountPath: "/data"
+          resources: 
+              limits:
+                memory: "128Mi"
+                cpu: "500m"
         
-      - resources: 
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+        - name: sidecar
+          image: alpine:latest
+          command: ["/usr/bin/tail", "-f", "/dev/null"]
+          resources: 
+              limits:
+                memory: "128Mi"
+                cpu: "500m"
 
     restartPolicy: "Never"
-    volumes:
-    - name: vol1
-      persistentVolumeClaim:
-        claimName: csi-writer-deployment-pvc
+    
     
