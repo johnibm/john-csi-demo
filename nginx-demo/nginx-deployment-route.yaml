@@ -4,6 +4,7 @@ metadata:
   name: nginx-deployment-route
 spec:
   # hostname: foo.apps.CLUSTER.ccs.ornl.gov
+  # if not specified will be automatically generated
   port:
     targetPort: nginx
   tls:
