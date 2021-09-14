@@ -13,26 +13,26 @@ metadata:
           "fieldPath": "spec.template.spec.containers[0].image"
         }
       ]
-  name: nginx-deployment
+  name: nginx-deployment-snapshot
   namespace: john-csi-nginx
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx-app
+      app: nginx-app-snapshot
   template:
     metadata:
       labels:
-        app: nginx-app
+        app: nginx-app-snapshot
     spec:
       nodeSelector:
         scale: "true"
       volumes:
         - name: nginx-vol1
           persistentVolumeClaim:
-            claimName: nginx-deployment-pvc-snapshot
+            claimName: nginx-deployment-snapshot-restore-pvc
       containers:
-        - name: nginx-app
+        - name: nginx-app-snapshot
           image: 'nginx:latest'
           ports:
             - containerPort: 80

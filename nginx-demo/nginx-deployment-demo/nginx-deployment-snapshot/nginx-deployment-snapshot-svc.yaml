@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
    app: nginx-app
-  name: nginx-deployment-svc
+  name: nginx-deployment-snapshot-svc
 spec:
   ports:
   - name: nginx
@@ -11,6 +11,6 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: nginx-app
+    app: nginx-app-snapshot
   sessionAffinity: None
   type: ClusterIP

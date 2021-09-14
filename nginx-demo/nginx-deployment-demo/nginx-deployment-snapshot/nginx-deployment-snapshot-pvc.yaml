@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-deployment-snapshot-restore-pvc
+spec:
+  storageClassName: ibm-spectrum-scale-csi-remote-fileset
+  dataSource:
+    name: nginx-deployment-pvc-snapshot-1
+    kind: VolumeSnapshot 
+    apiGroup: snapshot.storage.k8s.io 
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  
