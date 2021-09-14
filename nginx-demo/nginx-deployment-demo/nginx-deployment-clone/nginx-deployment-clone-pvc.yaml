@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-deployment-clone-pvc
+spec:
+  storageClassName: ibm-spectrum-scale-csi-remote-fileset
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  dataSource:
+    kind: PersistentVolumeClaim
+    name: nginx-deployment-pvc

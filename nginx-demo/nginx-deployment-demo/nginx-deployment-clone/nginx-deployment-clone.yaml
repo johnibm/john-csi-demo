@@ -1,0 +1,55 @@
+﻿kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: '2'
+    image.openshift.io/triggers: |-
+      [
+        {
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "nginx:latest"
+          },
+          "fieldPath": "spec.template.spec.containers[0].image"
+        }
+      ]
+  name: nginx-deployment-clone
+  namespace: john-csi-nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-app-clone
+  template:
+    metadata:
+      labels:
+        app: nginx-app-clone
+    spec:
+      nodeSelector:
+        scale: "true"
+      volumes:
+        - name: nginx-vol1
+          persistentVolumeClaim:
+            claimName: nginx-deployment-clone-pvc
+      containers:
+        - name: nginx-app-clone
+          image: 'nginx:latest'
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: 
+            limits:
+              memory: "128Mi"
+              cpu: "500m" 
+          volumeMounts:
+            - name: nginx-vol1
+              mountPath: /usr/share/nginx/html
+              
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
