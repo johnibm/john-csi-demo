@@ -38,7 +38,7 @@ spec:
         - wget
         - "-O"
         - "/temp_dir/index.html"
-        - https://github.com/JohnIBM/john-csi-demo/blob/cf5a8f3b0f2f7677ae583578db981a64b6b4010b/nginx-demo/index.html
+        - http://163.74.83.245/
         volumeMounts:
         - name: nginx-vol1
           mountPath: "/temp_dir"
