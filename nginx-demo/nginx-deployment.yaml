@@ -25,6 +25,8 @@ spec:
       labels:
         app: nginx-app
     spec:
+      nodeSelector:
+        scale: "true"
       volumes:
         - name: nginx-vol1
           persistentVolumeClaim:
