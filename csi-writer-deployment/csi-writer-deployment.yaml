@@ -13,18 +13,18 @@ metadata:
           "fieldPath": "spec.template.spec.containers[0].image"
         }
       ]
-  name: scale-csi-writer-deployment
+  name: csi-writer-deployment
   namespace: john-csi-demo
 
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: scale
+      app: csi-writer-deployment
   template:
     metadata:
       labels:
-        app: scale-csi-writer-deployment
+        app: csi-writer-deployment
         
     spec:
     
@@ -60,5 +60,5 @@ spec:
     volumes:
     - name: vol1
       persistentVolumeClaim:
-        claimName: scale-csi-writer-deployment-pvc
+        claimName: csi-writer-deployment-pvc
     
