@@ -3,6 +3,6 @@ kind: VolumeSnapshot
 metadata:
   name: nginx-deployment-pvc-snapshot-1
 spec:
-  volumeSnapshotClassName: ibm-spectrum-scale-csi-volume-snapshot
+  volumeSnapshotClassName: ibm-spectrum-scale-csi-volume-snapclass
   source:
     persistentVolumeClaimName: nginx-deployment-pvc
