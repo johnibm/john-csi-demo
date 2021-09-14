@@ -3,4 +3,4 @@ kind: VolumeSnapshotClass
 metadata:
    name: ibm-spectrum-scale-csi-volume-snapshot
 driver: spectrumscale.csi.ibm.com
-deletetionPolicy: Delete
+deletionPolicy: Delete
