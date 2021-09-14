@@ -27,8 +27,10 @@ spec:
         app: csi-writer-deployment
         
     spec:
-    
-    env:
+    nodeSelector:
+        scale: "true"
+    containers:
+        env:
         - name: MY_POD_NAME
           valueFrom:
             fieldRef:
@@ -38,7 +40,6 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
       
-    containers:
         - name: maincontainer
           image: alpine:latest
           command: [ "/bin/sh", "-c", "--" ]
