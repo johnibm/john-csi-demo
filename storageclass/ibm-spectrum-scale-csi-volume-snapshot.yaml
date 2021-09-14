@@ -2,5 +2,5 @@ apiVersion: storage.k8s.io/v1
 kind: VolumeSnapshotClass
 metadata:
    name: ibm-spectrum-scale-csi-volume-snapshot
-provisioner: spectrumscale.csi.ibm.com
-reclaimPolicy: Delete
+driver: spectrumscale.csi.ibm.com
+deletePolicy: Delete
