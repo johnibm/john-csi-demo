@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sd-data-pvc
+spec:
+  resources:
+    requests:
+      storage: 250Gi # This is the least amount of storage available for the data
+               # It must be less or equal to the amount of storage in the pv to be claimed.
+  accessModes:
+    - ReadWriteMany # This must be defined to be claimed by the pv created.
+  storageClassName: sd-sc
+
+
