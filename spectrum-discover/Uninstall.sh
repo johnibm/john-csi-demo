@@ -18,3 +18,5 @@ oc delete configmap istio-ca-root-cert
 oc delete configmap kube-root-ca.crt
 for sa in `oc -n spectrum-discover get sa --no-headers | awk '{print $1}'`; do oc -n spectrum-discover delete sa $sa; done 
 
+# delete this as well
+oc delete clusterrole system:openshift:scc:db2wh-scc

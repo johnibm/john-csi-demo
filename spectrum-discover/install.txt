@@ -1,0 +1,39 @@
+
+cd ${installer_path};
+tar xvf spectrum-discover-package-2.0.4.tar.gz
+
+export TILLER_NAMESPACE=tiller
+
+oc process -f https://github.com/openshift/origin/raw/master/examples/helm/tiller-template.yaml -p TILLER_NAMESPACE="${TILLER_NAMESPACE}" -p HELM_VERSION=v2.14.1 | oc create -f -
+oc rollout status deployment tiller
+
+oc new-project ${project_name}
+oc project ${project_name}
+oc policy add-role-to-user admin "system:serviceaccount:${TILLER_NAMESPACE}:tiller"
+
+
+
+cd ${installer_path}/spectrum-discover-package/ibm-db2warehouse/ibm_cloud_pak/pak_extensions
+./pre-install/clusterAdministration/createSecurityClusterPrereqs.sh
+./pre-install/namespaceAdministration/createSecurityNamespacePrereqs.sh ${project_name}
+oc create secret generic ${db2wh_release_name}-db2u-ldap-bluadmin --from-literal=password="${db2wh_password}"
+oc create secret generic ${db2wh_release_name}-db2u-instance --from-literal=password="${db2wh_password}"
+
+
+oc create secret docker-registry ibm-registry  --docker-server=icr.io --docker-username=iamapikey --docker-password=
+oc secrets link db2u ibm-registry --for=pull
+
+
+cd ${installer_path}/spectrum-discover-package/ibm-db2warehouse/ibm_cloud_pak/pak_extensions/common
+helm_options_file=new-helm-opt-file
+cat <<EOF >${helm_options_file}
+storage.existingClaimName="db-pvc"
+mln.total="6"
+images.db2u.replicas="3"
+subType="mpp"
+limit.memory="32Gi"
+database.name="BLUDB"
+EOF
+
+
+./db2u-install  --db-type db2wh --namespace spectrum-discover --release-name ${db2wh_release_name} --tiller-namespace tiller --helm-opt-file ${helm_options_file}

@@ -1,0 +1,62 @@
+NAME:   spectrum-discover-db2-release
+LAST DEPLOYED: Fri Sep 17 16:09:49 2021
+NAMESPACE: spectrum-discover
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/ConfigMap
+NAME                                            DATA  AGE
+spectrum-discover-db2-release-db2u-config       2     1s
+spectrum-discover-db2-release-db2u-hadr-config  1     1s
+spectrum-discover-db2-release-db2u-lic          1     1s
+spectrum-discover-db2-release-db2u-uc-config    23    1s
+spectrum-discover-db2-release-db2u-wv-config    1     1s
+
+==> v1/Deployment
+NAME                                      READY  UP-TO-DATE  AVAILABLE  AGE
+spectrum-discover-db2-release-db2u-ldap   0/1    1           0          1s
+spectrum-discover-db2-release-db2u-tools  0/1    1           0          1s
+
+==> v1/Job
+NAME                                                  COMPLETIONS  DURATION  AGE
+spectrum-discover-db2-release-db2u-engn-update-job    0/1          1s        1s
+spectrum-discover-db2-release-db2u-nodes-cfg-job      0/1          1s        1s
+spectrum-discover-db2-release-db2u-restore-morph-job  0/1          1s        1s
+spectrum-discover-db2-release-db2u-sqllib-shared-job  0/1          1s        1s
+
+==> v1/Pod(related)
+NAME                                                        READY  STATUS             RESTARTS  AGE
+spectrum-discover-db2-release-db2u-0                        0/1    Init:0/2           0         1s
+spectrum-discover-db2-release-db2u-1                        0/1    Init:0/2           0         1s
+spectrum-discover-db2-release-db2u-2                        0/1    Init:0/2           0         1s
+spectrum-discover-db2-release-db2u-engn-update-job-4xz6p    0/1    Init:0/2           0         1s
+spectrum-discover-db2-release-db2u-ldap-df5f66458-jpwwz     0/1    Init:0/1           0         1s
+spectrum-discover-db2-release-db2u-nodes-cfg-job-97clz      0/1    Init:0/1           0         1s
+spectrum-discover-db2-release-db2u-restore-morph-job-jkw57  0/1    Init:0/1           0         1s
+spectrum-discover-db2-release-db2u-sqllib-shared-job-d5n4d  0/1    ContainerCreating  0         1s
+spectrum-discover-db2-release-db2u-tools-7999d6c4c9-m4wmp   0/1    ContainerCreating  0         1s
+spectrum-discover-db2-release-etcd-0                        0/1    Init:0/1           0         1s
+
+==> v1/Secret
+NAME                                     TYPE    DATA  AGE
+spectrum-discover-db2-release-db2u-ldap  Opaque  1     1s
+
+==> v1/Service
+NAME                                         TYPE       CLUSTER-IP      EXTERNAL-IP  PORT(S)                                                                          AGE
+spectrum-discover-db2-release-db2u           ClusterIP  172.30.84.59    <none>       50000/TCP,50001/TCP,25000/TCP,25001/TCP,25002/TCP,25003/TCP,25004/TCP,25005/TCP  1s
+spectrum-discover-db2-release-db2u-engn-svc  NodePort   172.30.31.177   <none>       50000:31836/TCP,50001:32647/TCP                                                  1s
+spectrum-discover-db2-release-db2u-internal  ClusterIP  None            <none>       50000/TCP,9443/TCP                                                               1s
+spectrum-discover-db2-release-db2u-ldap      ClusterIP  172.30.144.201  <none>       50389/TCP                                                                        1s
+spectrum-discover-db2-release-db2u-rest-svc  NodePort   172.30.254.42   <none>       50050:32527/TCP                                                                  1s
+spectrum-discover-db2-release-etcd           ClusterIP  None            <none>       2380/TCP,2379/TCP                                                                1s
+
+==> v1/StatefulSet
+NAME                                READY  AGE
+spectrum-discover-db2-release-db2u  0/3    1s
+spectrum-discover-db2-release-etcd  0/3    1s
+
+
+NOTES:
+
+db2wh have been installed
+
