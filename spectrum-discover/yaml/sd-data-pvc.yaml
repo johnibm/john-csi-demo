@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: sd-data-pvc
+  labels:
+    app: ibm-spectrum-discover
 spec:
   resources:
     requests:

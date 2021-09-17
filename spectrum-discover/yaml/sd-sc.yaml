@@ -2,6 +2,8 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
        name: sd-sc
+       labels:
+         app: ibm-spectrum-discover
 provisioner: spectrumscale.csi.ibm.com
 parameters:
     volBackendFs: "fs1"
