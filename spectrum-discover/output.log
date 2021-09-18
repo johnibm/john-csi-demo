@@ -60,3 +60,35 @@ NOTES:
 
 db2wh have been installed
 
+
+
+
+# Error:
+spectrum-discover-generate-license-bsm9f                     1/2     NotReady           0          14h
+
+oc logs spectrum-discover-generate-license-bsm9f -c spectrum-discover-generate-license
+
+
+
+TASK [license : Call REST endpoint] ********************************************
+task path: /opt/ibm/metaocean/roles/license/tasks/k8s_api_call.yaml:16
+<127.0.0.1> ESTABLISH LOCAL CONNECTION FOR USER: root
+<127.0.0.1> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1631919401.4585545-37-8531848
+0260053 `" && echo ansible-tmp-1631919401.4585545-37-85318480260053="` echo /root/.ansible/tmp/ansible-tmp-1631919401.4585545-37-85318480260053 `" ) && sleep
+0'
+Using module file /usr/local/lib/python3.6/site-packages/ansible/modules/net_tools/basics/uri.py
+<127.0.0.1> PUT /opt/app-root/src/.ansible/tmp/ansible-local-8s2r42vk9/tmpahadg1gw TO /root/.ansible/tmp/ansible-tmp-1631919401.4585545-37-85318480260053/Ansi
+ballZ_uri.py
+<127.0.0.1> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1631919401.4585545-37-85318480260053/ /root/.ansible/tmp/ansible-tmp-1631919401.4585545-
+37-85318480260053/AnsiballZ_uri.py && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c '/usr/bin/python3.6 /root/.ansible/tmp/ansible-tmp-1631919401.4585545-37-85318480260053/AnsiballZ_uri.py && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1631919401.4585545-37-85318480260053/ > /dev/null 2>&1 && sleep 0'
+fatal: [localhost]: FAILED! => {
+    "msg": "The conditional check '('reason' in result.json)' failed. The error was: error while evaluating conditional (('reason' in result.json)): 'dict obj
+ect' has no attribute 'json'"
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=4    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
