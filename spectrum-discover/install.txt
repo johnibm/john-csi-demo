@@ -37,3 +37,122 @@ EOF
 
 
 ./db2u-install  --db-type db2wh --namespace spectrum-discover --release-name ${db2wh_release_name} --tiller-namespace tiller --helm-opt-file ${helm_options_file}
+
+
+oc exec -it $(oc -n spectrum-discover get po --no-headers --show-labels=true --selector name=dashmpp-head-0 | awk '{print $1}') -- su - db2inst1 -c 'netstat -ntlp'
+
+oc exec -it $(oc -n spectrum-discover get po --no-headers --show-labels=true --selector name=dashmpp-head-0 | awk '{print $1}') -- su - db2inst1 -c 'db2 update db cfg for bludb using logprimary 50'
+oc exec -it $(oc -n spectrum-discover get po --no-headers --show-labels=true --selector name=dashmpp-head-0 | awk '{print $1}') -- su - db2inst1 -c 'db2 update db cfg for bludb using logsecond 50'
+
+cd ${installer_path}/spectrum-discover-package/ibm-db2warehouse/ibm_cloud_pak/pak_extensions/post-install
+./set_db2_workload.sh
+
+
+#Install Spectrum Discover 
+HOST=$(oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}')
+echo $HOST
+oc create secret docker-registry image-registry-pull-secret --docker-server="${HOST}" --docker-username=kubeadmin --docker-password="$(oc whoami -t)"
+
+
+cd ${installer_path}/spectrum-discover-package/spectrum-discover
+tar -xvf images.tar.xz
+podman login -u kubeadmin -p $(oc whoami -t) --tls-verify=false $HOST
+
+# Step 7
+cd ${installer_path}/spectrum-discover-package/spectrum-discover/images
+for image in *.tar; do podman load -i $image;done
+
+# Step 8
+
+for image in $(podman images | grep "localhost/spectrum" | grep -v sd-docker-registry | awk '{print $1":"$2}'); do podman tag $image $HOST/${image#localhost/}; done
+
+# Step 9
+for image in $(podman images | grep $HOST/spectrum-discover | awk '{print $1":"$2}'); do podman push --tls-verify=false $image;done
+
+# Step 10
+
+cd ${installer_path}/spectrum-discover-package/spectrum-discover/;
+tar xvf operator-*.tar.xz
+
+sed -i "s/localhost/$HOST/g" ${installer_path}/spectrum-discover-package/spectrum-discover/deploy/strimzi/050-Deployment-strimzi-cluster-operator.yaml
+sed -i "s/localhost/$HOST/g" ${installer_path}/spectrum-discover-package/spectrum-discover/deploy/spectrum-discover.yaml
+
+
+#Step 11
+
+
+
+scc_sd_privileged_file="ibm-spectrum-discover-privileged-scc.yaml"
+cat <<EOF >${scc_sd_privileged_file}
+# This SCC is the least restrictive, and is meant to be a template
+# Pass the --validate=false flag when applying
+apiVersion: security.openshift.io/v1
+kind: SecurityContextConstraints
+metadata:
+  name: ibm-sd-privileged-scc
+allowHostDirVolumePlugin: true
+allowHostIPC: true
+allowHostNetwork: true
+allowHostPID: true
+allowHostPorts: true
+allowPrivilegedContainer: true
+allowPrivilegeEscalation: true
+allowedCapabilities:
+- '*'
+allowedFlexVolumes: []
+allowedUnsafeSysctls:
+- '*'
+defaultAddCapabilities: []
+defaultAllowPrivilegeEscalation: true
+forbiddenSysctls: []
+fsGroup:
+  type: RunAsAny
+readOnlyRootFilesystem: false
+requiredDropCapabilities: []
+runAsUser:
+  type: RunAsAny
+seccompProfiles:
+- '*'
+# This can be customized for your host machine
+seLinuxContext:
+  type: RunAsAny
+# seLinuxOptions:
+#   level:
+#   user:
+#   role:
+#   type:
+supplementalGroups:
+  type: RunAsAny
+volumes:
+- '*'
+# If you want a priority on your SCC -- set for a value more than 0
+priority: 15
+EOF
+
+oc create -f ${scc_sd_privileged_file}
+## bind your target service account to the predefined SecurityContextConstraints object
+oc adm policy add-scc-to-user ibm-sd-privileged-scc system:serviceaccount:spectrum-discover:spectrum-discover-operator
+oc adm policy add-scc-to-user ibm-sd-privileged-scc system:serviceaccount:spectrum-discover:strimzi-cluster-operator
+oc adm policy add-scc-to-user ibm-sd-privileged-scc system:serviceaccount:spectrum-discover:spectrum-discover-sasl-zookeeper
+oc adm policy add-scc-to-user ibm-sd-privileged-scc system:serviceaccount:spectrum-discover:spectrum-discover-ssl-zookeeper
+oc adm policy add-scc-to-user ibm-sd-privileged-scc system:serviceaccount:spectrum-discover:spectrum-discover-sasl-kafka
+oc adm policy add-scc-to-user ibm-sd-privileged-scc system:serviceaccount:spectrum-discover:spectrum-discover-ssl-kafka
+
+
+for account in spectrum-discover-operator strimzi-cluster-operator spectrum-discover-ssl-zookeeper spectrum-discover-sasl-zookeeper; do oc create sa $account; oc secrets link $account image-registry-pull-secret --for=pull; done
+
+# Step 14
+oc apply -n spectrum-discover -f ${installer_path}/spectrum-discover-package/spectrum-discover/deploy/strimzi
+oc apply -n spectrum-discover -f ${installer_path}/spectrum-discover-package/spectrum-discover/deploy/spectrum-discover.yaml
+oc get pods | grep operator
+
+##Step 15
+envsubst <${installer_path}/spectrum-discover-package/spectrum-discover/deploy/crs/ibm.spectrum.discover_v1alpha1_spectrumdiscoverkafka_cr.yaml | oc apply -n ${project_name} -f -
+envsubst <${installer_path}/spectrum-discover-package/spectrum-discover/deploy/crs/ibm.spectrum.discover_v1alpha1_spectrumdiscover_cr.yaml | oc apply -n ${project_name} -f -
+
+#Step 16
+while [[ "$(oc get pod -n spectrum-discover -l app=spectrum-discover-ui-backend -o=jsonpath='{.items[0].status.containerStatuses[0].ready}' 2>&1)" != "true" ]]; do echo "Waiting on UI"; sleep 20; done
+
+
+
+
