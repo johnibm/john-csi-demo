@@ -5,4 +5,4 @@ metadata:
   namespace: spectrum-discover 
 data:
   jwt_token: >-
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXN0b21lciI6InRyaWFsIiwiZXhwIjoxNjMyMzYwNzE1fQ.PhxjuPYCsoqJvQR6pSLaGe3lyXb7qeVdM5y_8rHj-xA
+    <token>
