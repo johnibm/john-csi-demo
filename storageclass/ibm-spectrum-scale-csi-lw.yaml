@@ -6,6 +6,6 @@ metadata:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: spectrumscale.csi.ibm.com
 parameters:
-    volBackendFs: "fs1"
+    volBackendFs: "scale-jmasc-csplab-cnsa"
     volDirBasePath: "spectrum-scale-csi-volume-store/lwdir"
 reclaimPolicy: Delete
