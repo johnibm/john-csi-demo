@@ -1,0 +1,68 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: '2'
+    image.openshift.io/triggers: |-
+      [
+        {
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "alpine:latest"
+          },
+          "fieldPath": "spec.template.spec.containers[0].image"
+        }
+      ]
+  name: csi-writer-deployment
+  namespace: john-csi-demo
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: csi-writer-deployment
+  template:
+    metadata:
+      labels:
+        app: csi-writer-deployment
+        
+    spec:
+      nodeSelector:
+        scale: "true"
+      volumes:
+        - name: vol1
+          persistentVolumeClaim:
+            claimName: csi-writer-deployment-pvc-restore
+      containers:
+        - name: maincontainer
+          env:
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: MY_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          image: alpine:latest
+          command: [ "/bin/sh", "-c", "--" ]
+          args: [ "while true; do echo $MY_POD_NAMESPACE $MY_POD_NAME `date` >> /data/datafile; sleep 5; done;" ]
+          volumeMounts:
+            - name: vol1
+              mountPath: "/data"
+          resources: 
+              limits:
+                memory: "128Mi"
+                cpu: "500m"
+        
+        - name: sidecar
+          image: alpine:latest
+          command: ["/usr/bin/tail", "-f", "/dev/null"]
+          resources: 
+              limits:
+                memory: "128Mi"
+                cpu: "500m"
+
+    restartPolicy: "Never"
+    
+    
