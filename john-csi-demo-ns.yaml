@@ -4,7 +4,7 @@ metadata:
   annotations:
     openshift.io/description: ""
     openshift.io/display-name: ""
+    # Required for scheduling on IBM Spectrum Scale CNSA Nodes
     openshift.io/node-selector: scale=true
 
   name: john-csi-demo
-  
