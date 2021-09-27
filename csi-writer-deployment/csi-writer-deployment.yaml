@@ -14,7 +14,7 @@ metadata:
         }
       ]
   name: csi-writer-deployment
-  # namespace: john-csi-demo
+  namespace: john-csi-demo
 
 spec:
   replicas: 3

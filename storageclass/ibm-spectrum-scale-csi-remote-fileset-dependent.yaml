@@ -4,7 +4,7 @@ metadata:
    name: ibm-spectrum-scale-csi-remote-fileset-dependent
 provisioner: spectrumscale.csi.ibm.com
 parameters:
-    volBackendFs: "fs1"
+    volBackendFs: "scale-jmasc-csplab-cnsa"
     clusterId: "7190932967857929650"
     uid: "1000"    
     gid: "1000"

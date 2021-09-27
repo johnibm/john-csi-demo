@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: scale-csi-writer-pod-2
+  namespace: john-csi-demo
 spec:
   containers:
   - resources: 

@@ -32,7 +32,7 @@ spec:
       volumes:
         - name: vol1
           persistentVolumeClaim:
-            claimName: csi-writer-deployment-pvc-restore
+            claimName: csi-writer-deployment-pvc-snapshot-restore
       containers:
         - name: maincontainer
           env:
