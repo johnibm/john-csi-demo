@@ -21,7 +21,7 @@ spec:
     name: maincontainer
     image: alpine:latest
     command: [ "/bin/sh", "-c", "--" ]
-    args: [ "while true; do echo $MY_POD_NAMESPACE $MY_POD_NAME `date` >> /data/datafile; sleep 5; done;" ]
+    args: [ "while true; do echo $MY_POD_NAMESPACE $MY_POD_NAME `date` >> /home/datafile; sleep 5; done;" ]
     
   restartPolicy: "Never"
   nodeSelector:
