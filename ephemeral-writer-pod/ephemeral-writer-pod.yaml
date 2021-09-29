@@ -26,4 +26,3 @@ spec:
   restartPolicy: "Never"
   nodeSelector:
          scale: 'true'
-#Added description
