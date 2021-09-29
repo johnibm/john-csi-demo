@@ -13,7 +13,7 @@ metadata:
           "fieldPath": "spec.template.spec.containers[0].image"
         }
       ]
-  name: csi-writer-deployment
+  name: csi-writer-deployment-restore
   namespace: john-csi-demo
 
 spec:
@@ -64,5 +64,17 @@ spec:
                 cpu: "500m"
 
     restartPolicy: "Never"
-    
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: csi-writer-deployment-pvc-snapshot-restore
+  namespace: john-csi-demo
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ibm-spectrum-scale-csi-remote-fileset
     

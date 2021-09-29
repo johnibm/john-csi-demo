@@ -1,3 +1,4 @@
+---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -29,10 +30,7 @@ spec:
     spec:
       nodeSelector:
         scale: "true"
-      volumes:
-        - name: vol1
-          persistentVolumeClaim:
-            claimName: csi-writer-deployment-pvc
+      
       containers:
         - name: maincontainer
           env:
@@ -62,7 +60,24 @@ spec:
               limits:
                 memory: "128Mi"
                 cpu: "500m"
-
+      volumes:
+        - name: vol1
+          persistentVolumeClaim:
+            claimName: csi-writer-deployment-pvc            
+            
     restartPolicy: "Never"
-    
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: csi-writer-deployment-pvc
+  namespace: john-csi-demo
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ibm-spectrum-scale-csi-remote-fileset
+  
     
