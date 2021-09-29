@@ -54,7 +54,7 @@ spec:
                 cpu: "500m"
         
         - name: sidecar
-          image: busybox
+          image: alpine:latest
           command: ["/usr/bin/tail", "-f", "/dev/null"]
           resources: 
               limits:
