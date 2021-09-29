@@ -64,7 +64,9 @@ spec:
         - name: vol1
           persistentVolumeClaim:
             claimName: csi-writer-deployment-pvc            
-            
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: docker-pull-secret
     restartPolicy: "Never"
 ---
 apiVersion: v1

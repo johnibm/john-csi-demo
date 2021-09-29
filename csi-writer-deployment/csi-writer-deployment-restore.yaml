@@ -1,3 +1,4 @@
+---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -29,10 +30,7 @@ spec:
     spec:
       nodeSelector:
         scale: "true"
-      volumes:
-        - name: vol1
-          persistentVolumeClaim:
-            claimName: csi-writer-deployment-pvc-snapshot-restore
+      
       containers:
         - name: maincontainer
           env:
@@ -62,7 +60,13 @@ spec:
               limits:
                 memory: "128Mi"
                 cpu: "500m"
-
+      volumes:
+        - name: vol1
+          persistentVolumeClaim:
+            claimName: csi-writer-deployment-pvc-snapshot-restore
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: docker-pull-secret
     restartPolicy: "Never"
 ---
 apiVersion: v1
@@ -77,4 +81,5 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: ibm-spectrum-scale-csi-remote-fileset
+  
     
