@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
-    openshift.io/description: ""
-    openshift.io/display-name: ""
+    openshift.io/description: "John CSI Demo"
+    openshift.io/display-name: "John CSI Demo"
     # Required for scheduling on IBM Spectrum Scale CNSA Nodes
     openshift.io/node-selector: scale=true
 
