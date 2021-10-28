@@ -31,8 +31,9 @@ spec:
       nodeSelector:
         scale: "true"
       securityContext:
-          seLinuxOptions:
-            level: 's0:c26,c10'
+        runAsUser: 1000
+      #    seLinuxOptions:
+      #      level: 's0:c26,c10'
       containers:
         - name: maincontainer
           env:
