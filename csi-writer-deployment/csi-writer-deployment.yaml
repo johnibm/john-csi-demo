@@ -48,10 +48,10 @@ spec:
                 fieldPath: metadata.namespace
           image: alpine:latest
           command: [ "/bin/sh", "-c", "--" ]
-          args: [ "while true; do echo $MY_POD_NAMESPACE $MY_POD_NAME `date` >> /data/datafile; sleep 5; done;" ]
+          args: [ "while true; do echo $MY_POD_NAMESPACE $MY_POD_NAME `date` >> /datafile; sleep 5; done;" ]
           volumeMounts:
             - name: vol1
-              mountPath: "/data"
+              mountPath: "/"
               #subPath: "subpath"
           resources: 
               limits:
