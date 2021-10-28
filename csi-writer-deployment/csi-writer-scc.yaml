@@ -3,8 +3,8 @@ apiVersion: security.openshift.io/v1
 metadata:
   name: csi-writer-scc
 #allowPrivilegedContainer: true
-#runAsUser:
-#  type: RunAsAny
+runAsUser:
+  type: MustRunAs
 seLinuxContext:
   type: MustRunAs
 #fsGroup:
