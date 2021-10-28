@@ -32,7 +32,7 @@ spec:
         scale: "true"
       securityContext:
           seLinuxOptions:
-            level: "s0:c123,c456"
+            level: 's0:c123,c456'
       containers:
         - name: maincontainer
           env:
