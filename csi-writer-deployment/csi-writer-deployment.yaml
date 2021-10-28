@@ -3,8 +3,8 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: '2'
-    openshift.io/scc: csi-writer-scc
+    deployment.kubernetes.io/revision: '3'
+    #openshift.io/scc: csi-writer-scc
     image.openshift.io/triggers: |-
       [
         {
@@ -31,8 +31,8 @@ spec:
     spec:
       nodeSelector:
         scale: "true"
-      securityContext:
-        runAsUser: 1000
+      #securityContext:
+      #  runAsUser: 1000
       #    seLinuxOptions:
       #      level: 's0:c26,c10'
       containers:
