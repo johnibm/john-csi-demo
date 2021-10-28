@@ -4,6 +4,7 @@ apiVersion: apps/v1
 metadata:
   annotations:
     deployment.kubernetes.io/revision: '2'
+    openshift.io/scc: csi-writer-scc
     image.openshift.io/triggers: |-
       [
         {

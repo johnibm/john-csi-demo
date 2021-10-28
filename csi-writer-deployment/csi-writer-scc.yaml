@@ -1,0 +1,17 @@
+kind: SecurityContextConstraints
+apiVersion: security.openshift.io/v1
+metadata:
+  name: csi-writer-scc
+#allowPrivilegedContainer: true
+#runAsUser:
+#  type: RunAsAny
+seLinuxContext:
+  type: MustRunAs
+#fsGroup:
+#  type: RunAsAny
+#supplementalGroups:
+#  type: RunAsAny
+#users:
+#- csi-writer-admin-user
+#groups:
+#- csi-writer-admin-group
