@@ -7,8 +7,8 @@ runAsUser:
   type: MustRunAs
 seLinuxContext:
   type: MustRunAs
-#fsGroup:
-#  type: RunAsAny
+fsGroup:
+  type: MustRunAs
 #supplementalGroups:
 #  type: RunAsAny
 #users:
