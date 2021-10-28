@@ -4,8 +4,8 @@ metadata:
    name: ibm-spectrum-scale-csi-remote-fileset
 provisioner: spectrumscale.csi.ibm.com
 parameters:
-    volBackendFs: "scale-jmasc-csplab-cnsa-fs3"
-    clusterId: "7190932967857929650"
+    volBackendFs: "scale-stg-storage-cnsa-fs0"
+    clusterId: "16969073011086255063"
     uid: "1000"
     gid: "1000"
     permissions: "777" #Important for subPath support, requires IBM Spectrum Scale CSI 2.3.0
