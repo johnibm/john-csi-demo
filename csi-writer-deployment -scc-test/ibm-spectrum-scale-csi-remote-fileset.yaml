@@ -1,0 +1,12 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+   name: ibm-spectrum-scale-csi-remote-fileset
+provisioner: spectrumscale.csi.ibm.com
+parameters:
+    volBackendFs: "scale-stg-storage-cnsa-fs1"
+    clusterId: "16969073011086255063"
+    uid: "1000"
+    gid: "1000"
+    permissions: "777" #Important for subPath support, requires IBM Spectrum Scale CSI 2.3.0
+reclaimPolicy: Delete

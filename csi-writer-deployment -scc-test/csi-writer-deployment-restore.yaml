@@ -3,7 +3,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: '3'
+    deployment.kubernetes.io/revision: '2'
     image.openshift.io/triggers: |-
       [
         {
@@ -14,7 +14,7 @@ metadata:
           "fieldPath": "spec.template.spec.containers[0].image"
         }
       ]
-  name: csi-writer-deployment
+  name: csi-writer-deployment-restore
   namespace: john-csi-demo
 
 spec:
@@ -30,10 +30,7 @@ spec:
     spec:
       nodeSelector:
         scale: "true"
-      #securityContext:
-      #  runAsUser: 1000
-      #    seLinuxOptions:
-      #      level: 's0:c26,c10'
+      
       containers:
         - name: maincontainer
           env:
@@ -51,7 +48,6 @@ spec:
           volumeMounts:
             - name: vol1
               mountPath: "/data"
-              #subPath: "subpath"
           resources: 
               limits:
                 memory: "128Mi"
@@ -67,7 +63,7 @@ spec:
       volumes:
         - name: vol1
           persistentVolumeClaim:
-            claimName: csi-writer-deployment-pvc            
+            claimName: csi-writer-deployment-pvc-snapshot-restore
       imagePullPolicy: IfNotPresent
       imagePullSecrets:
         - name: docker-pull-secret
@@ -76,7 +72,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: csi-writer-deployment-pvc
+  name: csi-writer-deployment-pvc-snapshot-restore
   namespace: john-csi-demo
 spec:
   accessModes:
