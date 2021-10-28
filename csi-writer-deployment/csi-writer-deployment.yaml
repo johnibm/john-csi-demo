@@ -3,7 +3,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: '1'
+    deployment.kubernetes.io/revision: '2'
     image.openshift.io/triggers: |-
       [
         {
@@ -18,7 +18,7 @@ metadata:
   namespace: john-csi-demo
 
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: csi-writer-deployment
@@ -30,9 +30,9 @@ spec:
     spec:
       nodeSelector:
         scale: "true"
-      #securityContext:
-      #    seLinuxOptions:
-      #      level: 's0:c123,c456'
+      securityContext:
+          seLinuxOptions:
+            level: 's0:c26,c10'
       containers:
         - name: maincontainer
           env:
