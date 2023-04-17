@@ -1,0 +1,19 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: alpine
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        deploymentconfig: alpine
+    spec:
+      containers:
+      - image: alpine
+        name: alpine
+        command: [ "/bin/sh", "-c", "while true ; do date; sleep 1; done;" ]
+  triggers:
+  - type: ConfigChange
