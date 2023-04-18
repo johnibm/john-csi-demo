@@ -14,3 +14,14 @@ mmauth grant ibm-spectrum-scale.cp4d-1.rtp.raleigh.ibm.com -f fusion101
 curl -s -k https://scale01.dal.hpdalab.com/scalemgmt/v2/cluster -u "cnsa_storage_gui_user:hpda123!" | grep clusterId
 curl -s -k https://scale01.dal.hpdalab.com:443/scalemgmt/v2/remotemount/remoteclusters -u "cnsa_storage_gui_user:hpda123!"
 
+
+
+mmlsfs fusion101 --perfileset-quota
+mmchfs fusion101 -Q yes
+mmlsfs fusion101 -Q
+mmchconfig enforceFilesetQuotaOnRoot=yes -i
+mmchconfig controlSetxattrImmutableSELinux=yes -i
+mmchfs fusion101 --filesetdf
+mmchfs fusion101 --auto-inode-limit
+
+/usr/lpp/mmfs/gui/cli/lsuser | grep ContainerOperator | grep CsiAdmin
