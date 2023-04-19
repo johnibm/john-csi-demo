@@ -2,6 +2,7 @@ apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   name: alpine
+  namespace: ibm-spectrum-scale
 spec:
   replicas: 1
   strategy:
@@ -17,3 +18,5 @@ spec:
         command: [ "/bin/sh", "-c", "while true ; do date; sleep 1; done;" ]
   triggers:
   - type: ConfigChange
+
+
